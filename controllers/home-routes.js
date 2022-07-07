@@ -13,5 +13,16 @@ router.get('/signup', (req, res) => {
     return res.render('signup')
 })
 
+router.get('/dashboard', (req, res) => {
+    return res.render('events')
+})
+
+router.get('/event/new', (req, res) => {
+    return res.render('newEvent')
+})
+
+router.get('/event/:id', (req, res) => {
+    return res.render('singleEvent')
+})
 
 module.exports = router

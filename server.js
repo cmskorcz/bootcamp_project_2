@@ -7,7 +7,7 @@ const sequelize = require('./config/connection');
 const seedAll = require('./seeds/index');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 

@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS event_planner_db;
+DROP DATABASE IF EXISTS event_tracker_db;
 
-CREATE DATABASE event_planner_db;
+CREATE DATABASE event_tracker_db;

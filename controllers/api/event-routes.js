@@ -92,7 +92,58 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-})
+});
 
+// Update Event
+router.put('/:id', async (req, res) => {
+    try {
+        if (req.session.loggedIn) {
+            const updatedEvent = await Event.update(req.body, {
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            if (!updatedEvent) {
+                res.status(404).json({ message: 'Unable to find that event' });
+                return;
+            }
+
+            res.json(updatedEvent);
+            return;
+        }
+
+        res.status(400).json({ message: 'You must be logged in to edit this event.' });
+        return;
+
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
+// Delete Event
+router.delete('/:id', async (req, res) => {
+    try {
+        if (req.session.loggedIn) {
+            const deletedEvent = await Event.destroy({
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            if (!deletedEvent) {
+                res.status(404).json({ message: 'Unable to find event' });
+                return;
+            }
+
+            res.json({ message: 'Event deleted' });
+            return;
+        }
+        res.status(400).json({ message: 'You must be logged in to delete an event' });
+    
+    } catch (error) {
+        res.status(500).json(error)
+    }
+});
 
 module.exports = router;

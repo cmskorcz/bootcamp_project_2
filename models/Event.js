@@ -18,16 +18,11 @@ Event.init(
             allowNull: false,
             validate: {
                 len: [10],
-                isAlphanumeric: true
             }
         },
         date: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: false,
-            validate: {
-                isDate: true,
-                isAfter: new Date().getDay()
-            }
         },
         user_id: {
             type: DataTypes.INTEGER,

@@ -51,7 +51,6 @@ router.get('/', async (req, res) => {
         ]
     });
     user = user.get({ plain: true });
-    // const userJSON = await JSON.stringify(user);
     res.render('profile', { user } );
 });
 

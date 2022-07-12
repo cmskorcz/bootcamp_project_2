@@ -27,4 +27,31 @@ Comment.belongsTo(Event, {
     foreignKey: 'event_id'
 });
 
+Reaction.belongsTo(User, {
+    foreignKey: 'user_id',
+});
+
+Reaction.belongsTo(Event, {
+    foreignKey: 'event_id'
+});
+
+User.hasMany(Reaction, {
+    onDelete: 'cascade'
+});
+
+Event.hasMany(Reaction, {
+    onDelete: 'cascade'
+});
+
+Event.belongsToMany(User, {
+    through: Reaction,
+    foreignKey: 'event_id',
+})
+
+User.belongsToMany(Event, {
+    through: Reaction,
+    foreignKey: 'user_id',
+    as: 'saved_events'
+})
+
 module.exports = { User, Event, Comment, Reaction };

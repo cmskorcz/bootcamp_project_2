@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection')
-const {User} = require('../../models');
+const { User, Event, Reaction, Comment } = require('../../models');
 
 // Find all users
 router.get('/', async (req, res) => {
@@ -26,7 +26,36 @@ router.get('/:id', async (req, res) => {
             },
             attributes: {
                 exclude: ['password']
-            }
+            },
+            include: [
+                {
+                    model: Event,
+                    attributes: [
+                        'id',
+                        'name',
+                        'address',
+                        'description',
+                        'date',
+                        'created_at'
+                    ]
+                },
+                {
+                    model: Event,
+                    attributes: ['name'],
+                    through: Reaction,
+                    as: 'saved_events'
+                },
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_text', 'created_at'],
+                    include: [
+                        {
+                            model: Event,
+                            attributes: ['name']
+                        }
+                    ]
+                }
+            ]
         });
     
         if (!foundUser) {

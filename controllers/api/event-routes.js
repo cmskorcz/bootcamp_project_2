@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const { Event, Comment, User } = require('../../models');
+const { Event, Comment, User, Reaction } = require('../../models');
 
 // Get all Events
 router.get('/', async (req, res) => {
@@ -12,7 +12,8 @@ router.get('/', async (req, res) => {
                 'address',
                 'description',
                 'date',
-                'created_at'
+                'created_at',
+                [sequelize.literal('(SELECT COUNT(*) FROM Reaction WHERE Event.id = Reaction.event_id)'), 'Reactions']
             ],
             include: [
                 {
@@ -46,7 +47,8 @@ router.get('/:id', async (req, res) => {
                 'address',
                 'description',
                 'date',
-                'created_at'
+                'created_at',
+                [sequelize.literal('(SELECT COUNT(*) FROM Reaction WHERE Event.id = Reaction.event_id)'), 'Reactions']
             ],
             include: [
                 {
@@ -160,5 +162,20 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json(error)
     }
 });
+
+// React to Event
+router.put('/reaction', async (req, res) => {
+    try {
+        if (req.session.loggedIn) {
+            const newReaction = await Event.reaction({...req.body, user_id: req.session.user_id }, { Reaction, Comment, User });
+            
+            res.json(newReaction);
+            return;
+         }
+         res.status(400).json({ message: 'Bad Request' });     
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
 
 module.exports = router;

@@ -5,12 +5,15 @@ class Reaction extends Model {}
 
 Reaction.init(
     {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                isInt: true
-            },
             references: {
                 model: 'User',
                 key: 'id'
@@ -19,9 +22,6 @@ Reaction.init(
         event_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                isInt: true
-            },
             references: {
                 model: 'Event',
                 key: 'id'

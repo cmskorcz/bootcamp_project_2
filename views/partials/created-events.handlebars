@@ -14,4 +14,12 @@
             {{/each}}
         </ul>
         {{/if}}
+        <div class="card-body">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editForm">
+                Edit Event
+            </button>
+            <div class="modal fade" id="editForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
+                {{> edit-modal this }}
+            </div>
+        </div>
     </div>

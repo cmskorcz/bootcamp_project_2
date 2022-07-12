@@ -17,7 +17,7 @@ class Event extends Model {
                     'date',
                     'created_at',
                     [
-                        [sequelize.literal('(SELECT COUNT(*) FROM Reaction WHERE Event.id = Reaction.event_id)'), 'reaction_count']
+                        [sequelize.literal('(SELECT COUNT(*) FROM Reaction WHERE Event.id = Reaction.event_id)'), 'Reactions']
 
                     ]
                 ]

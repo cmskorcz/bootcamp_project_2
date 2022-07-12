@@ -114,9 +114,10 @@ router.post('/', async (req, res) => {
 });
 
 // Update Event
+// Uncomment sections when login added
 router.put('/:id', async (req, res) => {
     try {
-        if (req.session.loggedIn) {
+        // if (req.session.loggedIn) {
             const updatedEvent = await Event.update(req.body, {
                 where: {
                     id: req.params.id
@@ -130,10 +131,10 @@ router.put('/:id', async (req, res) => {
 
             res.json(updatedEvent);
             return;
-        }
+        // }
 
-        res.status(400).json({ message: 'You must be logged in to edit this event.' });
-        return;
+        // res.status(400).json({ message: 'You must be logged in to edit this event.' });
+        // return;
 
     } catch (error) {
         res.status(500).json(error);

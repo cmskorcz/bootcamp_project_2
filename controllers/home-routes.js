@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const sequelize = require('../config/connection');
+const { Event } = require('../models');
+
 
 router.get('/', (req, res) => {
     return res.render('home')
@@ -21,8 +23,21 @@ router.get('/event/new', (req, res) => {
     return res.render('newEvent')
 })
 
-router.get('/event/:id', (req, res) => {
-    return res.render('singleEvent')
+router.get('/events/:id/edit', async (req, res) => {
+    let event = await Event.findOne({
+        where: {
+            id: req.params.id
+        },
+        attributes: [
+            'id',
+            'name',
+            'description',
+            'address',
+            'date'
+        ]
+    });
+    event = event.get({ plain: true });
+    res.render('editEvent', event)
 })
 
 module.exports = router

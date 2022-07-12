@@ -38,10 +38,10 @@ app.use(routes);
 // app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
 
 
-sequelize.sync({ force: true })
-.then(() => {
-    seedAll();
-})
+sequelize.sync({ force: false })
+// .then(() => {
+//     seedAll();
+// })
 .then(() => {
  app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
 });

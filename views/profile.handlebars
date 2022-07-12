@@ -2,11 +2,11 @@
     <div class="row">
         <div class="col-6">
             <h2>Welcome {{ user.first_name }} {{ user.last_name }}!</h2>
-            <ul>
+            <div>
                 {{#each user.Events as |event| }}
                     {{> created-events event }}
                 {{/each }}
-            </ul>
+            </div>
         </div>
         <div class="col-6">
             <h3 class="mb-3">Create A New Event!</h3>

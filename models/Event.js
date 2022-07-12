@@ -1,7 +1,30 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Event extends Model {}
+class Event extends Model {
+    static reaction(body, models) {
+        return models.Reaction.create(body)
+        .then(() => {
+            return Event.findOne({
+                where: {
+                    id: body.event_id
+                },
+                attributes: [
+                    'id',
+                    'name',
+                    'address',
+                    'description',
+                    'date',
+                    'created_at',
+                    [
+                        [sequelize.literal('(SELECT COUNT(*) FROM Reaction WHERE Event.id = Reaction.event_id)'), 'reaction_count']
+
+                    ]
+                ]
+            })
+        })
+    }
+}
 
 Event.init(
     {

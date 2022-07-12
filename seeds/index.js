@@ -3,6 +3,7 @@ const sequelize = require('../config/connection');
 const seedUser = require('./user-seeds');
 const seedEvents = require('./event-seeds');
 const seedComments = require('./comment-seeds');
+const seedReactions = require('./reaction-seeds');
 
 const seedAll = async () => {
     await sequelize.sync({ force: true });
@@ -13,6 +14,8 @@ const seedAll = async () => {
     console.log('Events seeded');
     await seedComments();
     console.log('Comments Seeded');
+    await seedReactions();
+    console.log('Reactions Seeded');
 };
 
 module.exports = seedAll;

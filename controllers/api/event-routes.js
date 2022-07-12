@@ -90,22 +90,24 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create Event
+// Return commented lines when login page built
 router.post('/', async (req, res) => {
     try {
-        if (req.session.loggedIn) {
+        // if (req.session.loggedIn) {
             const createdEvent = await Event.create({
                 name: req.body.name,
                 address: req.body.address,
                 description: req.body.description,
                 date: req.body.date,
-                user_id: req.session.user_id
+                user_id: req.body.user_id
+                // user_id: req.session.user_id
             });
             
             res.json(createdEvent);
-            return;
-        }
+            // return;
+        // }
 
-        res.status(400).json({ message: 'You must be logged in to create an event' })
+        // res.status(400).json({ message: 'You must be logged in to create an event' })
     } catch (error) {
         res.status(500).json(error);
     }

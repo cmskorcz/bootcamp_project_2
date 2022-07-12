@@ -39,12 +39,9 @@ Event.init(
         description: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                len: [10],
-            }
         },
         date: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         user_id: {

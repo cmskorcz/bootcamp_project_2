@@ -4,9 +4,10 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
+const seedAll = require('./seeds/index');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -39,6 +40,10 @@ app.use(routes);
 // app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
 
 
-sequelize.sync({ force: false }).then(() => {
- app.listen(PORT, () => console.log(`Now listening on http://localhost:${PORT}`));
+sequelize.sync({ force: true })
+.then(() => {
+    seedAll();
+})
+.then(() => {
+ app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
 });

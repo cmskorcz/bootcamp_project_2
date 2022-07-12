@@ -1,0 +1,19 @@
+<h1>Welcome {{user.first_name}} {{user.last_name}}!</h1>
+
+<div>
+    <h2>Created Events</h2>
+    <ul>
+        {{#each user.Events as |event|}}
+            {{> created-events event}}
+        {{/each}}
+    </ul>
+</div>
+
+<div>
+    <h2>Saved Events</h2>
+    <ul>
+        {{#each user.saved_events as |event|}}
+            {{> saved-events event}}
+        {{/each}}
+    </ul>
+</div>

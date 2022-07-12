@@ -3,4 +3,9 @@
         <p>{{description}}</p>
         <p>{{address}}</p>
         <p>{{format_date date}}</p>
+        {{#if Comments.length}}
+            {{#each Comments as |comment|}}
+            {{> comment comment}}
+            {{/each}}
+        {{/if}}
     </li>

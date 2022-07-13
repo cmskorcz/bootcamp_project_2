@@ -1,0 +1,25 @@
+<form class="container mt-3" id="edit-event-form">
+    <h1 class="mb-3">Edit Event</h1>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="eventNameEdit" placeholder="{{name}}">
+        <label for="eventNameEdit">{{name}}</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="eventAddressEdit" placeholder="{{address}}">
+        <label for="eventAddressEdit">{{address}}</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="date" class="form-control" id="eventDateEdit" placeholder="{{date}}">
+        <label for="eventDateEdit">{{date}}</label>
+    </div>
+    <div class="form-floating mb-3">
+        <textarea id="eventDescriptionEdit" class="form-control" placeholder="{{description}}"></textarea>
+        <label for="eventDescriptionEdit">{{description}}</label>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success" id="eventUpdateButton">Save Changes</button>
+        <a href="/profile" class="btn btn-danger">Back to Profile</a>
+    </div>
+</form>
+
+<script src="/js/edit-event.js"></script>

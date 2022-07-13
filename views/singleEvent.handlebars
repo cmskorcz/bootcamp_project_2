@@ -1,9 +1,9 @@
     <div class="card mb-3 m-2 p-2">
         <div class="card-body">
-          <h5 class="card-title">Event title</h5>
-          <p class="card-text"><small class="text-muted">Posted by USER</small></p>
-          <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis molestias labore ipsa cum atque doloremque optio quae. Voluptate earum ea provident, saepe et obcaecati porro tempora? Asperiores sed corrupti quaerat.</p>
-          <p class="card-text"><small class="text-muted">Event date</small></p>
+          <h5 class="card-title">{{eventData[0].name}}</h5>
+          <p class="card-text"><small class="text-muted">{{eventData[0].user_id}}</small></p>
+          <p class="card-text">{{eventData[0].description}}</p>
+          <p class="card-text"><small class="text-muted">{{eventData[0].date}}</small></p>
         </div>
       </div>
 
@@ -22,8 +22,21 @@
 
       <div class="card mb-3 m-2 p-2">
         <div class="card-body">
-          <h5 class="card-title">Users name</h5>
-          <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis molestias labore ipsa cum atque doloremque optio quae. Voluptate earum ea provident, saepe et obcaecati porro tempora? Asperiores sed corrupti quaerat.</p>
+          <h5 class="card-title">{{eventData[1].name}}</h5>
+          <p class="card-text">{{eventData[1].user_id}}</p>
+          <p class="card-text">{{eventData[1].description}}</p>
+          <p class="card-text"><small class="text-muted">{{eventData[1].date}}</small></p>
+          <p class="card-text"><small class="text-muted">Small badge indicating if the user is attending the event or not.</small></p>
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="card-body">
+           <h5 class="card-title">{{eventData[2].name}}</h5>
+          <p class="card-text">{{eventData[2].user_id}}</p>
+          <p class="card-text">{{eventData[2].description}}</p>
+          <p class="card-text"><small class="text-muted">{{eventData[2].date}}</small></p>
           <p class="card-text"><small class="text-muted">Small badge indicating if the user is attending the event or not.</small></p>
         </div>
 
@@ -54,13 +67,6 @@
             <p class="card-text"><small class="text-muted">Small badge indicating if the user is attending the event or not.</small></p>
         </div>
 
-        <br>
-        <hr>
-
-        <div class="card-body">
-            <h5 class="card-title">Users name</h5>
-            <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis molestias labore ipsa cum atque doloremque optio quae. Voluptate earum ea provident, saepe et obcaecati porro tempora? Asperiores sed corrupti quaerat.</p>
-            <p class="card-text"><small class="text-muted">Small badge indicating if the user is attending the event or not.</small></p>
-        </div>
-
       </div>
+
+<script src="../seeds/event-seeds.js"></script>

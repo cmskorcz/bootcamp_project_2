@@ -17,6 +17,14 @@
     </h2>
 
     <section class="d-flex justify-content-around flex-wrap p-2">
+
+            <div>
+                {{#each user.Events as |event| }}
+                    {{> created-events event }}
+                {{/each }}
+            </div>
+
+            
     <div class="card mb-3" style="max-width: 540px;">
       <div class="row g-0">
         <div class="col-md-4">

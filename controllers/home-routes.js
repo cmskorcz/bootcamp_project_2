@@ -4,6 +4,7 @@ const { Event } = require('../models');
 
 
 router.get('/', (req, res) => {
+    
     return res.render('home')
 })
 

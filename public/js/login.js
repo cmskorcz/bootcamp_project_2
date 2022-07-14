@@ -1,8 +1,8 @@
 async function loginFormHandler(event) {
     event.prevetDefault()
 
-    const email = document.querySelector('#login-email').ariaValueMax.trim()
-    const password = document.querySelector('#login-password').ariaValueMax.trim()
+    const email = document.querySelector('#login-email').value.trim()
+    const password = document.querySelector('#login-password').value.trim()
 
     if (email && password) {
         const response = await fetch('/login', {

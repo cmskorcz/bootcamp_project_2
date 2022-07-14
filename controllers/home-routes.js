@@ -1,18 +1,37 @@
 const router = require('express').Router()
+const res = require('express/lib/response');
 const sequelize = require('../config/connection');
-const { Event } = require('../models');
+const { User, Event } = require('../models');
 
 
 router.get('/', (req, res) => {
-    
+    console.log(req.session)
+    Event.findAll({
+        attributes: [
+            'id',
+            'name',
+            'description',
+            'address',
+            'date'
+        ]
+    })
     return res.render('home')
 })
 
 router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/')
+        return;
+    }
     return res.render('login')
 })
 
+
 router.get('/signup', (req, res) => {
+    if(req.session.loggedIn) {
+        res.redirect('/')
+        return;
+    }
     return res.render('signup')
 })
 

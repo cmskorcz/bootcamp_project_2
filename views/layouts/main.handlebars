@@ -28,12 +28,16 @@
                 <li class="nav-item">
                   <a class="nav-link text-white" href="/singleEvent">TEST BUTTON FOR VIEWING EVENTS</a>
                 </li>
+                {{#if loggedIn}}
                 <li class="nav-item">
                     <a class="nav-link text-white" href="/login">Log in</a>
                 </li>
+                {{/if}}
+                {{#unless loggedIn}}
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="/">Log out</a>
+                    <button class="bg-transparent border-0 text-white nav-link" id="logout">Log out</button>
                 </li>
+                {{/unless}}
               </ul>
             </div>
           </nav>
@@ -43,5 +47,9 @@
     <main>
       {{{ body }}}
     </main>
+
+    {{#unless loggedIn}}
+    <script src="/public/js/logout.js"></script>
+    {{/unless}}
 </body>
 </html>

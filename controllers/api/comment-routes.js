@@ -96,22 +96,25 @@ router.get('/:id', async (req, res) => {
 })
 
 // Create Comment
-router.post('/', (req,res) => {
-
-    if(req.session.loggedIn) {
-        Comment.create({
+router.post('/', async (req, res) => {
+    try {
+        const comment = await Comment.create({
             comment_text: req.body.comment_text,
             event_id: req.body.event_id,
-            // event_id: event_id,
-            user_id: req.session.user_id
-        })
-        .then(dbCommentData => res.json(dbCommentData))
-        .catch(err=> {
-            console.log(err);
-            res.status(400).json(err);
-        })
+            user_id: req.body.user_id
+        });
+
+        if (!comment) {
+            res.status(400).json({ message: 'unable to create comment' })
+            return
+        }
+
+        res.json(comment)
+    } catch (error) {
+        res.status(500).json(error)
     }
-});
+})
+// });
 
 // Update Comment
 router.put('/:id', async (req, res) => {

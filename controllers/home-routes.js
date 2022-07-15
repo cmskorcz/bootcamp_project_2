@@ -13,9 +13,25 @@ router.get('/', (req, res) => {
             'description',
             'address',
             'date'
-        ]
+        ],
+        include: {
+            model: User,
+            attributes: ['id']
+        }
+    },
+    {
+        model: User,
+        attributes: ['id']
     })
-    return res.render('home')
+    .then(dbPostData => {
+        
+        const loggedIn = req.session.loggedIn
+        res.render('home', {loggedIn})
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json(err)
+    }) 
 })
 
 router.get('/login', (req, res) => {

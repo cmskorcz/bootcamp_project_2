@@ -19,9 +19,11 @@
                 <li class="nav-item active">
                   <a class="nav-link text-white" href="/">Home</span></a>
                 </li>
+                {{#if loggedIn}}
                 <li class="nav-item">
                   <a class="nav-link text-white" href="/profile">Profile</a>
                 </li>
+                {{/if}}
                 <li class="nav-item">
                   <a class="nav-link text-white" href="/event/new">Create an event</a>
                 </li>
@@ -30,14 +32,13 @@
                 </li>
                 {{#if loggedIn}}
                 <li class="nav-item">
+                    <button id="logout" class="bg-transparent border-0 text-white nav-link" >Log out</button>
+                </li>
+                {{else}}
+                <li class="nav-item">
                     <a class="nav-link text-white" href="/login">Log in</a>
                 </li>
                 {{/if}}
-                {{#unless loggedIn}}
-                <li class="nav-item">
-                    <button class="bg-transparent border-0 text-white nav-link" id="logout">Log out</button>
-                </li>
-                {{/unless}}
               </ul>
             </div>
           </nav>
@@ -47,9 +48,8 @@
     <main>
       {{{ body }}}
     </main>
-
-    {{#unless loggedIn}}
-    <script src="/public/js/logout.js"></script>
-    {{/unless}}
+    {{#if loggedIn}}
+    <script src="/js/logout.js"></script>
+    {{/if}}
 </body>
 </html>

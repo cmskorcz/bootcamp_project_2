@@ -1,4 +1,4 @@
-  {{#if loggedIn}}
+  {{#unless loggedIn}}
   <section class="p-2">
         <div class="card text-center">
             <div class="card-header">
@@ -12,7 +12,7 @@
             </div>
           </div>
     </section>
-    {{/if}}
+    {{/unless}}
 
     <h2 class="text-center p-2">
       Current events

@@ -132,7 +132,8 @@ router.delete('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
         const deletedEvent = await Event.destroy({
             where: {
-                id: req.body.id
+                id: req.body.id,
+                user_id: req.session.user_id
             }
         });
 

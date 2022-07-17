@@ -4,7 +4,6 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
-const seedAll = require('./seeds/index');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,9 +36,6 @@ app.use(routes);
 
 
 sequelize.sync({ force: false })
-// .then(() => {
-//     seedAll();
-// })
 .then(() => {
  app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
 });

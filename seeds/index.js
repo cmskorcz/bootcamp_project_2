@@ -18,4 +18,4 @@ const seedAll = async () => {
     console.log('Reactions Seeded');
 };
 
-module.exports = seedAll;
+seedAll()

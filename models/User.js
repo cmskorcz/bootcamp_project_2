@@ -32,6 +32,15 @@ User.init(
             validate: {
                 len: [6]
             }
+        },
+        is_auth_email: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        auth_url: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
     {

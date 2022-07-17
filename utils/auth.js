@@ -3,7 +3,7 @@ const { User } = require('../models');
 // Use before withEmailAuth
 const withAuth = (req, res, next) => {
     if (!req.session.loggedIn || !req.session.user_id) {
-        res.redirect('/');
+        res.redirect('/login');
     } else {
         next();
     }

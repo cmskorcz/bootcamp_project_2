@@ -2,13 +2,12 @@ const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { User, Event, Reaction, Comment } = require('../models');
 
-const withAuth = require('../utils/auth');
+const { withAuth, withEmailAuth } = require('../utils/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', withAuth, withEmailAuth, async (req, res) => {
     let user = await User.findOne({
         where: {
-            id: 1
-            // id: req.session.user_id
+            id: req.session.user_id
         },
         attributes: {
             exclude: ['password']
@@ -55,12 +54,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/auth/:auth', async (req, res) => {
-    await User.update({ is_auth_email: true }, {
+    const authenticatedEmail = await User.update({ is_auth_email: true }, {
         where: {
             auth_url: req.params.auth
         }
-    });
-    res.redirect('/profile')
+    })
+
+    if (authenticatedEmail) {
+        const user = await User.findOne({
+            where: {
+                auth_url: req.params.auth
+            },
+            attributes: ['user_id']
+        });
+
+        req.session.loggedIn = true
+        req.session.user_id = user.user_id
+        res.redirect('/profile')
+    } else {
+        res.redirect('/signup')
+    }
 })
 
 module.exports = router

@@ -54,4 +54,13 @@ router.get('/', async (req, res) => {
     res.render('profile', { user } );
 });
 
+router.get('/auth/:auth', async (req, res) => {
+    await User.update({ is_auth_email: true }, {
+        where: {
+            auth_url: req.params.auth
+        }
+    });
+    res.redirect('/profile')
+})
+
 module.exports = router

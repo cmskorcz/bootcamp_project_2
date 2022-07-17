@@ -90,7 +90,7 @@ router.post('/', async (req, res) => {
             to: newUserData.email,
             subject: 'Event Buddy Email Authentication',
             text: 'Please click the below link to authenticate your account',
-            html: `<a href="https://murmuring-springs-16959.herokuapp.com/api/auth/${newUserData.auth_url}">Authentication Link</a>`
+            html: `<a href="https://murmuring-springs-16959.herokuapp.com/profile/auth/${newUserData.auth_url}">Authentication Link</a>`
         }
     
         transporter.sendMail(message, (err, info) => {
@@ -166,7 +166,7 @@ router.post('/logout', (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         if(req.session.loggedIn) {
-            const updatedUser = User.update(req.body, {
+            const updatedUser = await User.update(req.body, {
                 where: {
                     id: req.params.id
                 }
@@ -186,6 +186,26 @@ router.put('/:id', async (req, res) => {
         res.status(500).json(error)   
     }
 });
+
+// Authenticate Email
+router.put('/auth/:auth', async (req, res) => {
+    try {
+        const authenticatedEmail = await User.update(req.body, {
+            where: {
+                auth_url: req.params.auth 
+            }
+        });
+        
+        if (!authenticatedEmail) {
+            res.status(404).json({ message: 'Unable to locate user' })
+            return;
+        }
+
+        res.status(200).json(authenticatedEmail);
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
 
 // Delete Account
 router.delete('/:id', async (req, res) => {

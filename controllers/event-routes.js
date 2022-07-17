@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Event, User, Comment } = require('../models');
+const { withAuth, withEmailAuth } = require('../utils/auth');
 
 
-router.get('/new', (req, res) => {
+router.get('/new', withAuth, withEmailAuth, (req, res) => {
     return res.render('newEvent')
 })
 
@@ -54,7 +55,7 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', withAuth, withEmailAuth, async (req, res) => {
     let event = await Event.findOne({
         where: {
             id: req.params.id

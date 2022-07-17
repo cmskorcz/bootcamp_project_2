@@ -1,25 +1,27 @@
 <form class="container mt-3" id="edit-event-form">
     <h1 class="mb-3">Edit Event</h1>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="eventNameEdit" placeholder="{{name}}">
-        <label for="eventNameEdit">{{name}}</label>
+        <input type="text" class="form-control" id="eventNameEdit" placeholder="{{event.name}}">
+        <label for="eventNameEdit">{{event.name}}</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="eventAddressEdit" placeholder="{{address}}">
-        <label for="eventAddressEdit">{{address}}</label>
+        <input type="text" class="form-control" id="eventAddressEdit" placeholder="{{event.address}}">
+        <label for="eventAddressEdit">{{event.address}}</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="date" class="form-control" id="eventDateEdit" placeholder="{{date}}">
-        <label for="eventDateEdit">{{date}}</label>
+        <input type="date" class="form-control" id="eventDateEdit" placeholder="{{event.date}}">
+        <label for="eventDateEdit">{{event.date}}</label>
     </div>
     <div class="form-floating mb-3">
-        <textarea id="eventDescriptionEdit" class="form-control" placeholder="{{description}}"></textarea>
-        <label for="eventDescriptionEdit">{{description}}</label>
+        <textarea id="eventDescriptionEdit" class="form-control" placeholder="{{event.description}}"></textarea>
+        <label for="eventDescriptionEdit">{{event.description}}</label>
     </div>
     <div>
         <button type="submit" class="btn btn-success" id="eventUpdateButton">Save Changes</button>
-        <a href="/profile" class="btn btn-danger">Back to Profile</a>
+        <a href="/profile" class="btn btn-primary">Back to Profile</a>
+        <button type="click" class="btn btn-danger" id="event-delete">Delete</button>
     </div>
 </form>
 
 <script src="/js/edit-event.js"></script>
+<script src="/js/delete-event.js"></script>

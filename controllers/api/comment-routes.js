@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const sequelize = require('../../config/connection');
 const { Comment, User, Event } = require('../../models');
+const { withAuth, withEmailAuth } = require('../../utils/auth');
 
 
 // Get All Comments
@@ -96,7 +97,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Create Comment
-router.post('/', async (req, res) => {
+router.post('/', withAuth, withEmailAuth, async (req, res) => {
     try {
         const comment = await Comment.create({
             comment_text: req.body.comment_text,
@@ -117,50 +118,39 @@ router.post('/', async (req, res) => {
 // });
 
 // Update Comment
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
-        if (req.session.loggedIn) {
-            const updatedComment = await Comment.update(req.body, {
-                where: {
-                    id: req.params.id
-                }
-            });
-    
-            if (!updatedComment) {
-                res.status(404).json({ message: 'Unable to find comment' });
-                return;
+        const updatedComment = await Comment.update(req.body, {
+            where: {
+                id: req.params.id
             }
-    
-            res.json({ message: 'Comment update successful' });
+        });
+
+        if (!updatedComment) {
+            res.status(404).json({ message: 'Unable to find comment' });
             return;
         }
-        res.status(400).json({ message: 'You must be logged in to update a comment' });
-    
+
+        res.json({ message: 'Comment update successful' });
     } catch (error) {
         res.status(500).json(error);        
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
-        if (req.session.loggedIn) {
-            const deletedComment = await Comment.destroy({
-                where: {
-                    id: req.params.id
-                }
-            });
-
-            if (!deletedComment) {
-                res.status(404).json({ message: 'Unable to find comment' });
-                return;
+        const deletedComment = await Comment.destroy({
+            where: {
+                id: req.params.id
             }
+        });
 
-            res.json({ message: 'Comment successfully deleted' });
+        if (!deletedComment) {
+            res.status(404).json({ message: 'Unable to find comment' });
             return;
         }
-        
-        res.status(400).json({ message: 'You must be logged in to delete a comment' });
 
+        res.json({ message: 'Comment successfully deleted' });
     } catch (error) {
         res.status(500).json(error);
     }

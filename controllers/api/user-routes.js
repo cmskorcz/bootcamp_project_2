@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const { User, Event, Reaction, Comment } = require('../../models');
 
 const transporter = require('../../config/emailer-connection');
+const { withAuth, withEmailAuth } = require('../../utils/auth');
 
 // Find all users
 router.get('/', async (req, res) => {
@@ -101,11 +102,8 @@ router.post('/', async (req, res) => {
             }
         });
 
-        req.session.save(() => {
-            req.session.loggedIn = true;
 
-            res.status(200).json(newUserData)
-        })
+        res.status(200).json(newUserData)
 
     } catch (err) {
         console.log(err);
@@ -158,29 +156,25 @@ router.post('/logout', (req, res) => {
             res.status(204).end();
         });
     }else {
-        res.status(404).end();
+        res.status(400).end();
     }
 });
 
 // Edit User
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
-        if(req.session.loggedIn) {
-            const updatedUser = await User.update(req.body, {
-                where: {
-                    id: req.params.id
-                }
-            });
-
-            if (!updatedUser) {
-                res.status(404).json({ message: 'Unable to locate User' });
-                return;
+        const updatedUser = await User.update(req.body, {
+            where: {
+                id: req.params.id
             }
+        });
 
-            res.json(updatedUser);
+        if (!updatedUser) {
+            res.status(404).json({ message: 'Unable to locate User' });
             return;
         }
-        res.status(400).json({ message: 'You must be logged in to update this profile' });
+
+        res.json(updatedUser);        
 
     } catch (error) {
         res.status(500).json(error)   
@@ -208,24 +202,20 @@ router.put('/auth/:auth', async (req, res) => {
 })
 
 // Delete Account
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
-        if (req.session.loggedIn) {
-            const deletedUser = User.destroy({
-                where: {
-                    id: req.params.id
-                }
-            });
-
-            if (!deletedUser) {
-                res.status(404).json({ message: 'Unable to locate User' });
-                return;
+        const deletedUser = User.destroy({
+            where: {
+                id: req.params.id
             }
+        });
 
-            res.json(deletedUser);
+        if (!deletedUser) {
+            res.status(404).json({ message: 'Unable to locate User' });
             return;
         }
-        res.status(400).json({ message: 'You must be logged in to delete a profile' })
+
+        res.json(deletedUser);
     } catch (error) {
         res.status(500).json(error);
     }

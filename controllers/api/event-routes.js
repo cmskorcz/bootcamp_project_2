@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
 const { Event, Comment, User, Reaction } = require('../../models');
+const { withAuth, withEmailAuth } = require('../../utils/auth');
 
 // Get all Events
 router.get('/', async (req, res) => {
@@ -90,92 +91,68 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create Event
-// Return commented lines when login page built
-router.post('/', async (req, res) => {
+router.post('/', withAuth, withEmailAuth, async (req, res) => {
     try {
-        // if (req.session.loggedIn) {
             const createdEvent = await Event.create({
                 name: req.body.name,
                 address: req.body.address,
                 description: req.body.description,
                 date: req.body.date,
-                user_id: req.body.user_id
-                // user_id: req.session.user_id
+                user_id: req.session.user_id
             });
             
             res.json(createdEvent);
-            // return;
-        // }
-
-        // res.status(400).json({ message: 'You must be logged in to create an event' })
     } catch (error) {
         res.status(500).json(error);
     }
 });
 
 // Update Event
-// Uncomment sections when login added
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
-        // if (req.session.loggedIn) {
-            const updatedEvent = await Event.update(req.body, {
-                where: {
-                    id: req.params.id
-                }
-            });
-
-            if (!updatedEvent) {
-                res.status(404).json({ message: 'Unable to find that event' });
-                return;
+        const updatedEvent = await Event.update(req.body, {
+            where: {
+                id: req.params.id
             }
+        });
 
-            res.json(updatedEvent);
+        if (!updatedEvent) {
+            res.status(404).json({ message: 'Unable to find that event' });
             return;
-        // }
+        }
 
-        // res.status(400).json({ message: 'You must be logged in to edit this event.' });
-        // return;
-
+        res.json(updatedEvent);
     } catch (error) {
         res.status(500).json(error);
     }
 });
 
 // Delete Event
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, withEmailAuth, async (req, res) => {
     try {
-        if (req.session.loggedIn) {
-            const deletedEvent = await Event.destroy({
-                where: {
-                    id: req.params.id
-                }
-            });
-
-            if (!deletedEvent) {
-                res.status(404).json({ message: 'Unable to find event' });
-                return;
+        const deletedEvent = await Event.destroy({
+            where: {
+                id: req.params.id
             }
+        });
 
-            res.json({ message: 'Event deleted' });
+        if (!deletedEvent) {
+            res.status(404).json({ message: 'Unable to find event' });
             return;
         }
-        res.status(400).json({ message: 'You must be logged in to delete an event' });
-    
+
+        res.json({ message: 'Event deleted' });        
     } catch (error) {
         res.status(500).json(error)
     }
 });
 
 // React to Event
-router.put('/reaction', async (req, res) => {
+router.put('/reaction', withAuth, withEmailAuth, async (req, res) => {
     try {
-        if (req.session.loggedIn) {
-            const newReaction = await Event.reaction({...req.body, user_id: req.session.user_id }, { Reaction, Comment, User });
-            
-            res.json(newReaction);
-            return;
-         }
-         res.status(400).json({ message: 'Bad Request' });     
+        const newReaction = await Event.reaction({...req.body, user_id: req.session.user_id }, { Reaction, Comment, User });
+        
+        res.json(newReaction);         
     } catch (error) {
         res.status(500).json(error);
     }

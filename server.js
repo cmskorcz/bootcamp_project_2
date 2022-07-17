@@ -36,10 +36,10 @@ app.use(session(sess));
 app.use(routes);
 
 
-sequelize.sync({ force: true })
-.then(() => {
-    seedAll();
-})
+sequelize.sync({ force: false })
+// .then(() => {
+//     seedAll();
+// })
 .then(() => {
  app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
 });

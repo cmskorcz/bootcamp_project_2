@@ -22,7 +22,7 @@ const withEmailAuth = async (req, res, next) => {
     });
 
     if (!user.is_auth_email) {
-        res.redirect('/');
+        res.redirect('/signup');
     } else {
         next()
     }

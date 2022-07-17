@@ -5,6 +5,8 @@ const { User, Event, Reaction, Comment } = require('../models');
 const { withAuth, withEmailAuth } = require('../utils/auth');
 
 router.get('/', withAuth, withEmailAuth, async (req, res) => {
+    const loggedIn = req.session.loggedIn
+
     let user = await User.findOne({
         where: {
             id: req.session.user_id
@@ -50,7 +52,7 @@ router.get('/', withAuth, withEmailAuth, async (req, res) => {
         ]
     });
     user = user.get({ plain: true });
-    res.render('profile', { user } );
+    res.render('profile', { user, loggedIn } );
 });
 
 router.get('/auth/:auth', async (req, res) => {
@@ -65,12 +67,14 @@ router.get('/auth/:auth', async (req, res) => {
             where: {
                 auth_url: req.params.auth
             },
-            attributes: ['user_id']
+            exclude: ['password']
         });
 
         req.session.loggedIn = true
         req.session.user_id = user.user_id
-        res.redirect('/profile')
+
+        const loggedIn = req.session.loggedIn
+        res.render('profile', { user, loggedIn})
     } else {
         res.redirect('/signup')
     }

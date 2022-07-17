@@ -1,6 +1,9 @@
 const router = require('express').Router();
-const sequelize = require('../../config/connection')
+const sequelize = require('../../config/connection');
+const { v4: uuidv4 } = require('uuid');
 const { User, Event, Reaction, Comment } = require('../../models');
+
+const transporter = require('../../config/emailer-connection');
 
 // Find all users
 router.get('/', async (req, res) => {
@@ -78,6 +81,24 @@ router.post('/', async (req, res) => {
             last_name: req.body.last_name,
             email: req.body.email,
             password: req.body.password,
+            is_auth_email: false,
+            auth_url: uuidv4()
+        });
+
+        const message = {
+            from: process.env.EMAIL_USER,
+            to: newUserData.email,
+            subject: 'Event Buddy Email Authentication',
+            text: 'Please click the below link to authenticate your account',
+            html: `<a href="https://murmuring-springs-16959.herokuapp.com/profile/auth/${newUserData.auth_url}">Authentication Link</a>`
+        }
+    
+        transporter.sendMail(message, (err, info) => {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(info.envelope)
+            }
         });
 
         req.session.save(() => {
@@ -85,6 +106,7 @@ router.post('/', async (req, res) => {
 
             res.status(200).json(newUserData)
         })
+
     } catch (err) {
         console.log(err);
         res.status(400).json(err);
@@ -144,7 +166,7 @@ router.post('/logout', (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         if(req.session.loggedIn) {
-            const updatedUser = User.update(req.body, {
+            const updatedUser = await User.update(req.body, {
                 where: {
                     id: req.params.id
                 }
@@ -164,6 +186,26 @@ router.put('/:id', async (req, res) => {
         res.status(500).json(error)   
     }
 });
+
+// Authenticate Email
+router.put('/auth/:auth', async (req, res) => {
+    try {
+        const authenticatedEmail = await User.update(req.body, {
+            where: {
+                auth_url: req.params.auth 
+            }
+        });
+        
+        if (!authenticatedEmail) {
+            res.status(404).json({ message: 'Unable to locate user' })
+            return;
+        }
+
+        res.status(200).json(authenticatedEmail);
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
 
 // Delete Account
 router.delete('/:id', async (req, res) => {

@@ -1,0 +1,40 @@
+<section class="p-2">
+  <div class="card text-center">
+    <div class="card-header">
+      Welcome to Event Buddy!
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Get started today</h5>
+      <p class="card-text">View and create local events with event buddy! Get started below.</p>
+      <a href="/login" class="btn btn-primary">Log in</a>
+      <a href="/signup" class="btn btn-primary">Create Account</a>
+    </div>
+  </div>
+</section>
+
+  <h2 class="text-center">
+    Current events
+  </h2>
+    <section class="d-flex justify-content-around flex-wrap p-2">
+    {{#each events as |event| }}
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="../images/event-icon.jpg" href="#" class="img-fluid rounded-start">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{event.name}}</h5>
+            <p class="card-text">{{event.description}}</p>
+            <p class="card-text"><strong>Address: </strong>{{event.address}}</p>
+            <p class="card-text"><strong>Date: </strong>{{event.date}}</p>
+            <p class="card-text"><small class="text-muted">Created by: {{event.User.first_name}} {{event.User.last_name}}</small></p>
+            <a href="/event/{{event.id}}" class="card-text"><small>Show Page</small></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+
+  </section>
+</section>

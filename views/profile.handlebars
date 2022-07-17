@@ -1,0 +1,39 @@
+<section class="container mt-3">
+    <div class="row">
+        <div class="col-6">
+            <h2>Welcome {{ user.first_name }} {{ user.last_name }}!</h2>
+            <div>
+                {{#each user.Events as |event| }}
+                    {{> created-events event }}
+                {{/each }}
+            </div>
+        </div>
+        <div class="col-6">
+            <h3 class="mb-3">Create A New Event!</h3>
+            <form id="new-event-form">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="eventNameInput" placeholder="Event">
+                    <label for="eventNameInput">Event Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="eventAddressInput" placeholder="123 Main St">
+                    <label for="eventAddressInput">Address</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="eventDateInput" placeholder="01/01/2023">
+                    <label for="eventDateInput"></label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea id="eventDescriptionInput" class="form-control" placeholder="Event Description"></textarea>
+                    <label for="eventDescriptionInput">Event Description</label>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/add-event.js"></script>

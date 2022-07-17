@@ -1,0 +1,23 @@
+    <div class="card mb-3" style="width: 20rem;">
+        <div class="card-body">
+            <h3 class="card-title">{{name}}</h3>
+            <p class="card-text">{{description}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Address: </strong>{{address}}</li>
+            <li class="list-group-item"><strong>Date: </strong>{{format_date date}}</li>
+        </ul>
+        {{#if Comments.length}}
+        <ul class="list-group list-group-flush">
+            {{#each Comments as |comment|}}
+            {{> comment comment}}
+            {{/each}}
+        </ul>
+        {{/if}}
+        <div class="card-body d-flex justify-content-between">
+            <a href="/event/{{id}}/edit" class="btn btn-primary">
+                Edit Event
+            </a>
+            <a href="/event/{{id}}" class="btn btn-primary">View Page</a>
+        </div>
+    </div>
